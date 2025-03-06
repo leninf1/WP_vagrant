@@ -3,10 +3,9 @@ directory "/opt/" do
     group "root"
 end
 
-execute "get wordpress" do
-    command "curl -o /tmp/wordpress.zip https://wordpress.org/latest.zip"
-    action :run
-    not_if { ::File.exist?('/tmp/wordpress.zip') }
+cookbook_file '/tmp/wordpress.zip' do
+    source 'wordpress-6.7.2.zip'
+    action :create
 end
 
 execute "extract_wordpress" do
