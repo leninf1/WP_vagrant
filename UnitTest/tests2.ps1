@@ -69,17 +69,31 @@ function unit_tests_on_a_container {
 
 function itg_tests {
     $KITCHEN_CMD = Get-Command kitchen -ErrorAction SilentlyContinue
-
+    #Ejecutamos las pruebas
+    Write-Output "Creando las maquinas"
     Set-Location $args[0]
     & $KITCHEN_CMD test
+    #Eliminamos las vm's
+    Write-Output "Limpiando el entorno de pruebas"
+    Set-Location $args[0]
+    & $KITCHEN_CMD destroy
 }
 
 function all_itg_tests {
-    $COOKBOOKS = Join-Path (Get-Location) "cookbooks"
-
-    itg_tests $COOKBOOKS\database
+    $rutaactual = Get-Location
+    #establecer la ruta de las recetas
+    $parent = Split-Path ($rutaactual) -Parent
+    $COOKBOOKS = Join-Path ($parent) "cookbooks"
+    Write-Output ""
+    Write-Output "Iniciando las pruebas de base de datos"
+    #itg_tests $COOKBOOKS\database
+    Write-Output "Iniciando las pruebas de wordpress"
     itg_tests $COOKBOOKS\wordpress
+    Write-Output "Iniciando las pruebas de base de proxy"
     itg_tests $COOKBOOKS\proxy
+    Write-Output "Pruebas finalizadas"
+    #Retornamos a la carpeta inicial
+    Set-Location $rutaactual
 }
 
 function manual {

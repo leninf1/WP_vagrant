@@ -58,7 +58,7 @@ describe 'wordpress::default' do
 
     # Test wordpress installation
     describe 'Install wordpress' do
-        it { is_expected.to run_execute('get wordpress') }
+        it { is_expected.to create_cookbook_file('/tmp/wordpress.zip')}
         it { is_expected.to run_execute('extract_wordpress') }
         it { is_expected.to create_template('/opt/wordpress/wp-config.php') }
         it { is_expected.to create_template('/etc/httpd/conf.d/wordpress.conf') }
