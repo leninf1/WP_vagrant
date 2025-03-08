@@ -32,6 +32,9 @@ platforms:
       box: ubuntu/focal64
       vm_hostname: db.epnewman.edu.pe
 
+transport:
+  ssh_key: ~/.ssh/id_rsa
+
 suites:
   - name: source
     verifier:
